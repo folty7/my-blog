@@ -14,7 +14,7 @@ export const validateBody = (rules: ValidationRule[]) => {
         const errors: string[] = [];
 
         for (const rule of rules) {
-            const value = req.body[rule.field];
+            const value = (req.body as Record<string, unknown>)[rule.field];
 
             // 1. Check if a required field is missing
             if (rule.required && (value === undefined || value === null)) {
