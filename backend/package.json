@@ -22,6 +22,7 @@
     "@src": "dist"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.6.0",
     "@prisma/client": "^7.6.0",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
@@ -39,6 +40,7 @@
     "jsonwebtoken": "^9.0.3",
     "module-alias": "^2.3.4",
     "morgan": "^1.10.1",
+    "pg": "^8.20.0",
     "tspo": "^1.0.7"
   },
   "devDependencies": {
