@@ -50,8 +50,8 @@ Here is a structured roadmap broken down into logical phases.
 - [x] Implement User Registration endpoint (hash passwords securely with bcrypt or argon2).
 - [x] Implement Login endpoint (generate and return JWT).
 - [x] Create Auth Middleware to protect sensitive routes.
-- [ ] **Frontend:** Setup Zustand store for user session/auth state management.
-- [ ] **Frontend:** Create Login and Register pages.
+- [x] **Frontend:** Setup Zustand store for user session/auth state management.
+- [x] **Frontend:** Create Login and Register pages.
 
 ### Phase 4: Core Blog Functionality (Backend)
 - [ ] Implement CRUD API endpoints for Blog Posts.
