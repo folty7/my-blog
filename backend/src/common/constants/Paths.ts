@@ -1,7 +1,7 @@
 import jetPaths from 'jet-paths';
 
 const Paths = {
-  _: '/api',
+  _: '/api/v1',
   Users: {
     _: '/users',
     Get: '/all',

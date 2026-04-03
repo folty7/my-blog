@@ -8,7 +8,6 @@ import path from 'path';
 import Paths from '@src/common/constants/Paths';
 import { RouteError } from '@src/common/utils/route-errors';
 import BaseRouter from '@src/routes/apiRouter';
-import authRouter from '@src/routes/auth.route';
 
 
 import EnvVars, { NodeEnvs } from './common/constants/env';
@@ -37,9 +36,6 @@ if (EnvVars.NodeEnv === NodeEnvs.DEV) {
 if (EnvVars.NodeEnv === NodeEnvs.PRODUCTION) {
   app.use(helmet());
 }
-
-// Add auth routes
-app.use('/api/auth', authRouter);
 
 // Add APIs, must be after middleware
 app.use(Paths._, BaseRouter);

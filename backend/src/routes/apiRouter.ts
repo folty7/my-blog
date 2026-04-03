@@ -3,6 +3,8 @@ import { Router } from 'express';
 import Paths from '@src/common/constants/Paths';
 
 import UserRoutes from './UserRoutes';
+import authRouter from './auth.routes';
+import postRouter from './post.routes';
 
 /******************************************************************************
                                 Setup
@@ -20,6 +22,14 @@ userRouter.put(Paths.Users.Update, UserRoutes.update);
 userRouter.delete(Paths.Users.Delete, UserRoutes.delete);
 
 apiRouter.use(Paths.Users._, userRouter);
+
+// ----------------------- Add AuthRouter --------------------------------- //
+
+apiRouter.use('/auth', authRouter);
+
+// ----------------------- Add PostRouter --------------------------------- //
+
+apiRouter.use('/posts', postRouter);
 
 /******************************************************************************
                                 Export
