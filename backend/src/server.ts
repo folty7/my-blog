@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import helmet from 'helmet';
 import logger from 'jet-logger';
 import morgan from 'morgan';
+import cors from 'cors';
 import path from 'path';
 
 import Paths from '@src/common/constants/Paths';
@@ -21,6 +22,9 @@ const app = express();
 // Basic middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Enable CORS for frontend integration
+app.use(cors());
 
 // Show routes called in console during development
 if (EnvVars.NodeEnv === NodeEnvs.DEV) {
