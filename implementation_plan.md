@@ -56,7 +56,7 @@ Here is a structured roadmap broken down into logical phases.
 ### Phase 4: Core Blog Functionality (Backend)
 - [x] Implement CRUD API endpoints for Blog Posts.
 - [x] Implement endpoints for Comments (adding, deleting).
-- [ ] Implement Tag management for categorizing posts.
+- [x] Implement Tag management for categorizing posts.
 - [ ] Write integration tests for Post and Auth endpoints.
 
 ### Phase 5: Core Blog Functionality (Frontend)

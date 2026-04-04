@@ -8,6 +8,7 @@ interface PostRequestBody {
   title: string;
   content: string;
   slug: string;
+  tags?: string[];
 }
 
 const router = Router();
@@ -17,7 +18,10 @@ router.get('/', async (req, res) => {
   try {
     const posts = await prisma.post.findMany({
       where: { published: true },
-      include: { author: { select: { name: true } } }, // Show author name
+      include: {
+        author: { select: { name: true } },
+        tags: true
+      },
       orderBy: { createdAt: 'desc' }
     });
     res.json(posts);
@@ -33,11 +37,12 @@ router.post('/',
   validateBody([
     { field: 'title', type: 'string', required: true },
     { field: 'content', type: 'string', required: true },
-    { field: 'slug', type: 'string', required: true }
+    { field: 'slug', type: 'string', required: true },
+    { field: 'tags', type: 'array', required: false }
   ]),
   async (req: AuthRequest, res: Response) => {
     try {
-      const { title, content, slug } = req.body as PostRequestBody;
+      const { title, content, slug, tags } = req.body as PostRequestBody;
       const authorId = req.user?.userId; // Get ID from the JWT token!
 
       const post = await prisma.post.create({
@@ -46,8 +51,16 @@ router.post('/',
           content,
           slug,
           authorId: authorId!,
-          published: true // Automatically publish for now
-        }
+          published: true, // Automatically publish for now
+          // Automatically link existing tags or create new ones
+          tags: {
+            connectOrCreate: tags?.map((tagName) => ({
+              where: { name: tagName },
+              create: { name: tagName },
+            }))
+          }
+        },
+        include: { tags: true }
       });
 
       res.status(201).json(post);
@@ -64,7 +77,10 @@ router.get('/:slug', async (req, res) => {
     const { slug } = req.params;
     const post = await prisma.post.findUnique({
       where: { slug: String(slug) },
-      include: { author: { select: { name: true, email: true } } }
+      include: {
+        author: { select: { name: true, email: true } },
+        tags: true
+      }
     });
 
     if (!post) {
@@ -85,16 +101,29 @@ router.patch('/:id',
   validateBody([
     { field: 'title', type: 'string', required: false },
     { field: 'content', type: 'string', required: false },
-    { field: 'slug', type: 'string', required: false }
+    { field: 'slug', type: 'string', required: false },
+    { field: 'tags', type: 'array', required: false }
   ]),
   async (req: AuthRequest, res: Response) => {
     try {
       const { id } = req.params;
-      const updateData = req.body as Partial<PostRequestBody>;
+      const { title, content, slug, tags } = req.body as PostRequestBody;
 
       const updatedPost = await prisma.post.update({
         where: { id: parseInt(String(id)) },
-        data: updateData
+        data: {
+          title,
+          content,
+          slug,
+          tags: tags ? {
+            set: [], // Clear existing tags first (in case user wants to remove some tags)
+            connectOrCreate: tags.map((tagName) => ({
+              where: { name: tagName },
+              create: { name: tagName },
+            }))
+          } : undefined
+        },
+        include: { tags: true }
       });
 
       res.json(updatedPost);

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"name": "Blog API (Auth & Posts)",
+		"name": "Blog API (Auth, Posts, Comments, Tags)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -9,6 +9,20 @@
 			"item": [
 				{
 					"name": "1. Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();",
+									"if(responseJson.token) {",
+									"    pm.collectionVariables.set(\"token\", responseJson.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -74,6 +88,33 @@
 							]
 						}
 					}
+				},
+				{
+					"name": "3. Profile (Me)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						}
+					}
 				}
 			]
 		},
@@ -119,7 +160,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"My First Post\",\n    \"content\": \"This is my test content.\",\n    \"published\": true\n}"
+							"raw": "{\n    \"title\": \"My First Post\",\n    \"slug\": \"moj-prvy-post\",\n    \"content\": \"This is my test content.\",\n    \"tags\": [\"coding\", \"blog\"]\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/posts",
@@ -133,24 +174,24 @@
 					}
 				},
 				{
-					"name": "3. Get Post by ID",
+					"name": "3. Get Post by SLUG",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/posts/1",
+							"raw": "{{base_url}}/posts/moj-prvy-post",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"posts",
-								"1"
+								"moj-prvy-post"
 							]
 						}
 					}
 				},
 				{
-					"name": "4. Update Post",
+					"name": "4. Update Post (PATCH)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -162,7 +203,7 @@
 								}
 							]
 						},
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -172,7 +213,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"My Updated Title\",\n    \"content\": \"Updated content.\",\n    \"published\": true\n}"
+							"raw": "{\n    \"title\": \"My Updated Title\",\n    \"tags\": [\"coding\", \"updated\"]\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/posts/1",
@@ -214,12 +255,137 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "1. Add Comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"Skvelý článok!\",\n    \"postId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/comments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"comments"
+							]
+						}
+					}
+				},
+				{
+					"name": "2. Get Comments for Post",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/comments/post/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"comments",
+								"post",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "3. Delete Comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/comments/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"comments",
+								"1"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Tags",
+			"item": [
+				{
+					"name": "1. Get All Tags",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/tags",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"tags"
+							]
+						}
+					}
+				},
+				{
+					"name": "2. Get Posts by Tag",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/tags/coding/posts",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"tags",
+								"coding",
+								"posts"
+							]
+						}
+					}
+				}
+			]
 		}
 	],
 	"variable": [
 		{
 			"key": "base_url",
-			"value": "http://localhost:3000",
+			"value": "http://localhost:3000/api/v1",
 			"type": "string"
 		},
 		{

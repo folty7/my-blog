@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 // We define a simple type for the rules we want to check
 type ValidationRule = {
     field: string;
-    type: 'string' | 'number' | 'boolean';
+    type: 'string' | 'number' | 'boolean' | 'array';
     required?: boolean;
     minLength?: number;
 };
@@ -28,7 +28,12 @@ export const validateBody = (rules: ValidationRule[]) => {
             }
 
             // 2. Check the datatype
-            if (typeof value !== rule.type) {
+            if (rule.type === 'array') {
+                if (!Array.isArray(value)) {
+                    errors.push(`Field '${rule.field}' must be an array.`);
+                    continue;
+                }
+            } else if (typeof value !== rule.type) {
                 errors.push(`Field '${rule.field}' must be a ${rule.type}, received ${typeof value}.`);
                 continue; // Skip further checks for this field to avoid runtime errors
             }

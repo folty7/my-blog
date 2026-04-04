@@ -6,6 +6,7 @@ import UserRoutes from './UserRoutes';
 import authRouter from './auth.routes';
 import postRouter from './post.routes';
 import commentRouter from './comment.routes';
+import tagRouter from './tag.routes';
 
 /******************************************************************************
                                 Setup
@@ -35,6 +36,10 @@ apiRouter.use('/posts', postRouter);
 // ----------------------- Add CommentRouter ------------------------------ //
 
 apiRouter.use('/comments', commentRouter);
+
+// ----------------------- Add TagRouter ---------------------------------- //
+
+apiRouter.use('/tags', tagRouter);
 
 /******************************************************************************
                                 Export
