@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 interface User {
   id: number;
@@ -14,10 +15,19 @@ interface AuthState {
   logout: () => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  token: null,
-  isAuthenticated: false,
-  login: (user, token) => set({ user, token, isAuthenticated: true }),
-  logout: () => set({ user: null, token: null, isAuthenticated: false }),
-}));
+// We wrap the store with 'persist' so that when 
+// a user refreshes the page, they don't get logged out!
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      user: null,
+      token: null,
+      isAuthenticated: false,
+      login: (user, token) => set({ user, token, isAuthenticated: true }),
+      logout: () => set({ user: null, token: null, isAuthenticated: false }),
+    }),
+    {
+      name: 'auth-storage', // name of the item in localStorage
+    }
+  )
+);
