@@ -5,6 +5,7 @@ import Paths from '@src/common/constants/Paths';
 import UserRoutes from './UserRoutes';
 import authRouter from './auth.routes';
 import postRouter from './post.routes';
+import commentRouter from './comment.routes';
 
 /******************************************************************************
                                 Setup
@@ -30,6 +31,10 @@ apiRouter.use('/auth', authRouter);
 // ----------------------- Add PostRouter --------------------------------- //
 
 apiRouter.use('/posts', postRouter);
+
+// ----------------------- Add CommentRouter ------------------------------ //
+
+apiRouter.use('/comments', commentRouter);
 
 /******************************************************************************
                                 Export
