@@ -40,8 +40,10 @@
     "jsonwebtoken": "^9.0.3",
     "module-alias": "^2.3.4",
     "morgan": "^1.10.1",
+    "multer": "^2.1.1",
     "pg": "^8.20.0",
-    "tspo": "^1.0.7"
+    "tspo": "^1.0.7",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
@@ -56,8 +58,10 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/module-alias": "^2.0.4",
     "@types/morgan": "^1.9.10",
+    "@types/multer": "^2.1.0",
     "@types/node": "^24.12.0",
     "@types/supertest": "^7.2.0",
+    "@types/uuid": "^10.0.0",
     "browser-sync": "^3.0.4",
     "concurrently": "^9.2.1",
     "delay-cli": "^3.0.0",

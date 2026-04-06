@@ -4,11 +4,14 @@ import { prisma } from '../db/prisma';
 import { authenticateToken, AuthRequest } from '../middleware/auth.middleware';
 import { validateBody } from '../middleware/validateRequest';
 
+import { upload } from '../middleware/upload.middleware';
+
 interface PostRequestBody {
   title: string;
   content: string;
   slug: string;
   tags?: string[];
+  imageUrl?: string;
 }
 
 const router = Router();
@@ -78,11 +81,12 @@ router.post('/',
     { field: 'title', type: 'string', required: true },
     { field: 'content', type: 'string', required: true },
     { field: 'slug', type: 'string', required: true },
-    { field: 'tags', type: 'array', required: false }
+    { field: 'tags', type: 'array', required: false },
+    { field: 'imageUrl', type: 'string', required: false }
   ]),
   async (req: AuthRequest, res: Response) => {
     try {
-      const { title, content, slug, tags } = req.body as PostRequestBody;
+      const { title, content, slug, tags, imageUrl } = req.body as PostRequestBody;
       const authorId = req.user?.userId; // Get ID from the JWT token!
 
       const post = await prisma.post.create({
@@ -92,6 +96,7 @@ router.post('/',
           slug,
           authorId: authorId!,
           published: true, // Automatically publish for now
+          imageUrl,
           // Automatically link existing tags or create new ones
           tags: {
             connectOrCreate: tags?.map((tagName) => ({
@@ -108,6 +113,20 @@ router.post('/',
       logger.err(error);
       res.status(500).json({ error: 'Internal server error' });
     }
+  }
+);
+
+// 2.5. UPLOAD IMAGE FOR POST (Protected)
+router.post('/upload',
+  authenticateToken,
+  upload.single('image'),
+  (req: AuthRequest & { file?: Express.Multer.File }, res) => {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+    // Return the relative path to be stored in the DB
+    const imageUrl = `/uploads/${req.file.filename}`;
+    res.json({ imageUrl });
   }
 );
 
@@ -142,12 +161,13 @@ router.patch('/:id',
     { field: 'title', type: 'string', required: false },
     { field: 'content', type: 'string', required: false },
     { field: 'slug', type: 'string', required: false },
-    { field: 'tags', type: 'array', required: false }
+    { field: 'tags', type: 'array', required: false },
+    { field: 'imageUrl', type: 'string', required: false }
   ]),
   async (req: AuthRequest, res: Response) => {
     try {
       const { id } = req.params;
-      const { title, content, slug, tags } = req.body as PostRequestBody;
+      const { title, content, slug, tags, imageUrl } = req.body as PostRequestBody;
 
       const updatedPost = await prisma.post.update({
         where: { id: parseInt(String(id)) },
@@ -155,6 +175,7 @@ router.patch('/:id',
           title,
           content,
           slug,
+          imageUrl,
           tags: tags ? {
             set: [], // Clear existing tags first (in case user wants to remove some tags)
             connectOrCreate: tags.map((tagName) => ({

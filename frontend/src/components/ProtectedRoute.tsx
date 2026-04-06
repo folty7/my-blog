@@ -8,9 +8,12 @@ export default function ProtectedRoute() {
   const location = useLocation();
 
   if (!isAuthenticated) {
-    // Redirect them to the login page, but save the current location they 
-    // were trying to go to. This is a nice UX improvement for after login.
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    // Prevent infinite loop if already at login (e.g. during Framer Motion exit animation)
+    if (window.location.pathname === '/login') {
+      return null; // Or render the old children to keep the exit animation smooth
+    }
+    // Redirect them to the login page
+    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
   }
 
   // The 'Outlet' renders the child component of this route!

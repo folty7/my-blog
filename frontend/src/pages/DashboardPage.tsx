@@ -85,7 +85,12 @@ export default function DashboardPage() {
                         <Edit2 size={16} />
                       </Link>
                       <button
-                        onClick={() => handleDelete(post.id, post.title)}
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleDelete(post.id, post.title);
+                        }}
                         className="btn-logout"
                         style={{ padding: '8px', color: '#ef4444', borderColor: 'var(--border-color)' }}
                         title="Delete post"

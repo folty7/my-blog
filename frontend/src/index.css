@@ -121,7 +121,6 @@ h6 {
   border-left: 1px solid var(--border-color);
   border-right: 1px solid var(--border-color);
   position: relative;
-  padding: 0 2rem;
 }
 
 .grid-diamond {
@@ -412,7 +411,7 @@ h6 {
 
 .post-card {
   background: transparent;
-  padding: 2.5rem 0;
+  padding: 2.5rem;
   display: flex;
   flex-direction: row;
   align-items: stretch;

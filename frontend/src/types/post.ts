@@ -15,6 +15,7 @@ export interface Post {
   slug: string;
   content: string;
   published: boolean;
+  imageUrl?: string;
   createdAt: string;
   updatedAt: string;
   authorId: number;

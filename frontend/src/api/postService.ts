@@ -28,14 +28,24 @@ export const postService = {
   },
 
   // POST a new post
-  createPost: async (data: { title: string; slug: string; content: string; tags: string[] }): Promise<Post> => {
+  createPost: async (data: { title: string; slug: string; content: string; tags: string[]; imageUrl?: string }): Promise<Post> => {
     const response = await apiClient.post('/posts', data);
     return response.data;
   },
 
   // PATCH an existing post
-  updatePost: async (id: number, data: Partial<{ title: string; slug: string; content: string; tags: string[] }>): Promise<Post> => {
+  updatePost: async (id: number, data: Partial<{ title: string; slug: string; content: string; tags: string[]; imageUrl?: string }>): Promise<Post> => {
     const response = await apiClient.patch(`/posts/${id}`, data);
+    return response.data;
+  },
+
+  // UPLOAD an image
+  uploadImage: async (file: File): Promise<{ imageUrl: string }> => {
+    const formData = new FormData();
+    formData.append('image', file);
+    const response = await apiClient.post('/posts/upload', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
     return response.data;
   },
 

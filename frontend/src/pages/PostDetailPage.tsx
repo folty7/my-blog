@@ -40,9 +40,34 @@ export default function PostDetailPage() {
 
   return (
     <>
-      <GridContainer wrapperClassName="hero-section" showPattern={true} style={{ position: 'relative', padding: '6rem 2rem', textAlign: 'center', zIndex: 10 }}>
-        {/* Subtle hero gradient background */}
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.2, background: 'linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%)', pointerEvents: 'none' }} />
+      <GridContainer
+        wrapperClassName="hero-section"
+        showPattern={!post.imageUrl}
+        style={{
+          position: 'relative',
+          padding: '8rem 2rem',
+          textAlign: 'center',
+          zIndex: 10,
+          backgroundImage: post.imageUrl ? `url(http://localhost:3000${post.imageUrl})` : 'none',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          overflow: 'hidden'
+        }}
+      >
+        {/* Subtle hero gradient background or deep overlay if image exists */}
+        <div style={{
+          position: 'absolute',
+          zIndex: -1,
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          opacity: post.imageUrl ? 0.7 : 0.2,
+          background: post.imageUrl
+            ? 'linear-gradient(to bottom, rgba(14,14,20,0.8), rgba(14,14,20,0.95))'
+            : 'linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%)',
+          pointerEvents: 'none'
+        }} />
 
         <Link
           to="/"

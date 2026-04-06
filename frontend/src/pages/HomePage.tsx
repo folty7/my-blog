@@ -68,11 +68,15 @@ export default function HomePage() {
 
         <div className="post-list" style={{ display: 'flex', flexDirection: 'column' }}>
           {posts?.map((post) => (
-            <GridContainer key={post.id} style={{ padding: '0 2rem' }}>
+            <GridContainer key={post.id}>
               <Link to={`/post/${post.slug}`} className="post-card">
-                {/* Left Column: Image Area (Mock) */}
-                <div style={{ width: '250px', height: '140px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <span className="mono-text" style={{ fontSize: '0.7rem' }}>Môj Blog</span>
+                {/* Left Column: Image Area */}
+                <div style={{ width: '250px', height: '140px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                  {post.imageUrl ? (
+                    <img src={`http://localhost:3000${post.imageUrl}`} alt={post.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  ) : (
+                    <span className="mono-text" style={{ fontSize: '0.7rem' }}>Môj Blog</span>
+                  )}
                 </div>
 
                 {/* Middle Column: Title & Excerpt */}

@@ -29,6 +29,7 @@ model Post {
   slug      String    @unique
   content   String    @db.Text
   published Boolean   @default(false)
+  imageUrl  String?
   author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  Int
   comments  Comment[]
