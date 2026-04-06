@@ -99,7 +99,7 @@ export default function PostDetailPage() {
           <ArrowLeft size={20} />
         </Link>
 
-        <div className="mono-text" style={{ fontSize: '0.85rem', color: '#cda06b', margin: '0 auto 1rem auto' }}>
+        <div className="mono-text" style={{ fontSize: '0.85rem', color: 'var(--primary)', backgroundColor: 'rgba(0, 0, 0, 0.4)', padding: '0.35rem 0.85rem', borderRadius: '50px', display: 'inline-block', margin: '0 auto 1.5rem auto', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.05)' }}>
           {new Date(post.createdAt).toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
@@ -111,7 +111,7 @@ export default function PostDetailPage() {
 
         <div className="tags-row" style={{ justifyContent: 'center', marginTop: '2rem' }}>
           {post.tags.map((tag) => (
-            <span key={tag.id} className="tag-badge" style={{ backgroundColor: 'transparent', border: '1px solid var(--border-color)' }}>
+            <span key={tag.id} className="tag-badge" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', border: '1px solid rgba(255, 255, 255, 0.15)', color: 'white', backdropFilter: 'blur(8px)', padding: '0.35rem 0.85rem', borderRadius: '50px' }}>
               {tag.name}
             </span>
           ))}
