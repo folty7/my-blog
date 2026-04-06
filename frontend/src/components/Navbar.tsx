@@ -66,6 +66,8 @@ export default function Navbar() {
               </>
             )}
           </ul>
+          <div className="grid-intersection left" style={{ bottom: '-5px' }}></div>
+          <div className="grid-intersection right" style={{ bottom: '-5px' }}></div>
         </div>
       </nav>
 
@@ -94,14 +96,14 @@ export default function Navbar() {
 
               <div style={{ marginTop: '2rem' }}>
                 <button className="btn-primary" style={{ width: '100%' }}>
-                   <Rocket size={18} />
-                   <span>Book a Free Consult</span>
+                  <Rocket size={18} />
+                  <span>Book a Free Consult</span>
                 </button>
               </div>
             </div>
 
             <div className="drawer-footer">
-               <p className="subtitle" style={{ fontSize: '0.75rem', textAlign: 'center' }}>© 2026 Moj Blog Studio. All rights reserved.</p>
+              <p className="subtitle" style={{ fontSize: '0.75rem', textAlign: 'center' }}>© 2026 Moj Blog Studio. All rights reserved.</p>
             </div>
           </div>
         </div>

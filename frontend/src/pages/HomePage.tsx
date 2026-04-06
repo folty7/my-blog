@@ -34,8 +34,8 @@ export default function HomePage() {
   return (
     <>
       {/* Hero Section */}
-      <div className="hero-section border-b-grid" style={{ position: 'relative', overflow: 'hidden', padding: '8rem 2rem', textAlign: 'center' }}>
-        <div style={{ width: '100%', maxWidth: '800px', height: '600px', position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }}>
+      <div className="hero-section border-b-grid">
+        <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }}>
           <PixelSnow
             color="#ffffff"
             flakeSize={0.01}
@@ -56,6 +56,8 @@ export default function HomePage() {
           <p className="subtitle" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem', lineHeight: '1.8', margin: '0 auto', textTransform: 'lowercase' }}>
             Our blog offers tips and strategies written by experts to enhance your web presence, attract more customers, and thrive in the digital landscape.
           </p>
+          <div className="grid-intersection left" style={{ bottom: '-5px' }}></div>
+          <div className="grid-intersection right" style={{ bottom: '-5px' }}></div>
         </div>
       </div>
 
@@ -63,12 +65,13 @@ export default function HomePage() {
       <div className="container" style={{ paddingBottom: '6rem' }}>
         <div className="border-b-grid" style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem 0', marginTop: '2rem' }}>
           <span className="mono-text">Posts</span>
+          <div className="grid-intersection left" style={{ bottom: '-5px' }}></div>
+          <div className="grid-intersection right" style={{ bottom: '-5px' }}></div>
         </div>
 
         <div className="post-grid">
           {posts?.map((post) => (
-            <article key={post.id} className="post-card">
-
+            <Link key={post.id} to={`/post/${post.slug}`} className="post-card">
               {/* Left Column: Image Area (Mock) */}
               <div style={{ width: '250px', height: '140px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <span className="mono-text" style={{ fontSize: '0.7rem' }}>Môj Blog</span>
@@ -76,9 +79,7 @@ export default function HomePage() {
 
               {/* Middle Column: Title & Excerpt */}
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <h2 className="title">
-                  <Link to={`/post/${post.slug}`}>{post.title}</Link>
-                </h2>
+                <h2 className="title">{post.title}</h2>
                 <p className="excerpt">
                   {post.content.length > 150
                     ? post.content.substring(0, 150) + '...'
@@ -97,8 +98,9 @@ export default function HomePage() {
                   ))}
                 </div>
               </div>
-
-            </article>
+              <div className="grid-intersection left" style={{ bottom: '-5px' }}></div>
+              <div className="grid-intersection right" style={{ bottom: '-5px' }}></div>
+            </Link>
           ))}
         </div>
 

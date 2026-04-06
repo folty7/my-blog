@@ -70,6 +70,8 @@ export default function PostDetailPage() {
               </span>
             ))}
           </div>
+          <div className="grid-intersection left" style={{ bottom: '-5px' }}></div>
+          <div className="grid-intersection right" style={{ bottom: '-5px' }}></div>
         </div>
       </div>
 

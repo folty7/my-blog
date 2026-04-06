@@ -163,71 +163,30 @@ h6 {
   }
 }
 
-/* Intersection Diamonds (Crosshairs) */
-.border-b-grid,
-.navbar {
-  position: relative;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.border-b-grid::before,
-.border-b-grid::after,
-.navbar::before,
-.navbar::after {
-  content: '';
+/* Intersection Diamonds (Refined Relative Version) */
+.grid-intersection {
   position: absolute;
   width: 8px;
-  /* size-2 equivalent */
   height: 8px;
   border: 1px solid #525252;
-  /* neutral-600 vibe */
   background-color: var(--bg-color);
   transform: rotate(45deg);
-  z-index: 50;
-  /* Ensure it's on top of relative sections */
+  z-index: 100;
   pointer-events: none;
-  bottom: -5px;
-  /* Precision centering on the 1px line */
 }
 
-/* Precise Horizontal Alignment */
-.border-b-grid::before,
-.navbar::before {
-  left: calc(50% - 600px - 4px);
+/* Diamonds now snap to parent edges for perfect alignment */
+.grid-intersection.left {
+  left: -4px;
 }
 
-.border-b-grid::after,
-.navbar::after {
-  right: calc(50% - 600px - 4px);
+.grid-intersection.right {
+  right: -4px;
 }
 
-/* Responsive Alignment for Diamonds */
-@media (max-width: 1240px) {
-
-  .border-b-grid::before,
-  .navbar::before {
-    left: 20px;
-  }
-
-  /* -4px offset from the 24px line */
-  .border-b-grid::after,
-  .navbar::after {
-    right: 20px;
-  }
-}
-
-@media (max-width: 768px) {
-
-  .border-b-grid::before,
-  .navbar::before {
-    left: 8px;
-  }
-
-  /* -4px offset from the 12px line */
-  .border-b-grid::after,
-  .navbar::after {
-    right: 8px;
-  }
+.border-b-grid {
+  position: relative;
+  border-bottom: 1px solid var(--border-color);
 }
 
 /* Main Layout */
@@ -235,17 +194,22 @@ h6 {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
+  /* padding: 0 2rem; */
 }
 
 /* Navbar */
 .navbar {
-  background-color: transparent;
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  background-color: rgba(17, 17, 17, 0.8);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-color);
   background-image: repeating-linear-gradient(-45deg,
-      rgba(255, 255, 255, 0.02),
-      rgba(255, 255, 255, 0.02) 1px,
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0.05) 1px,
       transparent 1px,
-      transparent 10px);
+      transparent 5px);
 }
 
 .navbar .container {
@@ -481,12 +445,15 @@ h6 {
 .post-card {
   background: transparent;
   border-bottom: 1px solid var(--border-color);
-  padding: 2rem 0;
+  padding: 2.5rem 0;
   display: flex;
   flex-direction: row;
   align-items: stretch;
   gap: 2rem;
   transition: all 0.3s ease;
+  position: relative;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .post-card:hover {
@@ -496,6 +463,10 @@ h6 {
       rgba(255, 255, 255, 0.02) 1px,
       transparent 1px,
       transparent 10px);
+}
+
+.post-card:hover .title {
+  color: var(--primary);
 }
 
 .post-card .title {
@@ -557,6 +528,16 @@ h6 {
       rgba(255, 255, 255, 0.02) 1px,
       transparent 1px,
       transparent 10px);
+  position: relative;
+  overflow: hidden;
+  padding: 8rem 2rem;
+  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* LOADING STATES */
