@@ -2,7 +2,9 @@ import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { postService } from '../api/postService';
 import { getApiError } from '../../utils/errorHandler';
+import { ArrowLeft } from 'lucide-react';
 import CommentsSection from '../components/CommentsSection';
+import GridContainer from '../components/GridContainer';
 
 export default function PostDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -38,55 +40,75 @@ export default function PostDetailPage() {
 
   return (
     <>
-      <div className="border-b-grid" style={{ position: 'relative', overflow: 'hidden' }}>
+      <GridContainer wrapperClassName="hero-section" showPattern={true} style={{ position: 'relative', padding: '6rem 2rem', textAlign: 'center', zIndex: 10 }}>
         {/* Subtle hero gradient background */}
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.2, background: 'linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%)', pointerEvents: 'none' }} />
 
-        <div className="container" style={{ position: 'relative', maxWidth: '900px', padding: '6rem 2rem', textAlign: 'center', zIndex: 10 }}>
-          <div style={{ marginBottom: '4rem', textAlign: 'left' }}>
-            <Link
-              to="/"
-              className="mono-text"
-              style={{ padding: '0.5rem 1rem', border: '1px solid var(--border-color)', borderRadius: '32px', color: 'var(--text-muted)' }}
-            >
-              ← Back
-            </Link>
-          </div>
+        <Link
+          to="/"
+          className="mono-text"
+          style={{
+            position: 'absolute',
+            top: '2rem',
+            left: '2rem',
+            padding: '0.5rem',
+            border: '1px solid var(--border-color)',
+            borderRadius: '50px',
+            color: 'var(--text-muted)',
+            backgroundColor: 'var(--bg-color)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'all 0.2s ease',
+            zIndex: 20
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = 'var(--text-main)';
+            e.currentTarget.style.borderColor = 'var(--text-main)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = 'var(--text-muted)';
+            e.currentTarget.style.borderColor = 'var(--border-color)';
+          }}
+        >
+          <ArrowLeft size={20} />
+        </Link>
 
-          <div className="mono-text" style={{ fontSize: '0.85rem', color: '#cda06b', marginBottom: '1rem' }}>
-            {new Date(post.createdAt).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            }).toUpperCase()}
-          </div>
-
-          <h1 className="title-large" style={{ fontSize: '4rem', marginBottom: '1.5rem' }}>{post.title}</h1>
-
-          <div className="tags-row" style={{ justifyContent: 'center', marginTop: '2rem' }}>
-            {post.tags.map((tag) => (
-              <span key={tag.id} className="tag-badge" style={{ backgroundColor: 'transparent', border: '1px solid var(--border-color)' }}>
-                {tag.name}
-              </span>
-            ))}
-          </div>
-          <div className="grid-intersection left" style={{ bottom: '-5px' }}></div>
-          <div className="grid-intersection right" style={{ bottom: '-5px' }}></div>
+        <div className="mono-text" style={{ fontSize: '0.85rem', color: '#cda06b', margin: '0 auto 1rem auto' }}>
+          {new Date(post.createdAt).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          }).toUpperCase()}
         </div>
-      </div>
 
-      <article className="container" style={{ maxWidth: '800px', padding: '4rem 2rem' }}>
-        <div className="post-content">
+        <h1 className="title-large" style={{ fontSize: '4rem', marginBottom: '1.5rem', margin: '0 auto' }}>{post.title}</h1>
+
+        <div className="tags-row" style={{ justifyContent: 'center', marginTop: '2rem' }}>
+          {post.tags.map((tag) => (
+            <span key={tag.id} className="tag-badge" style={{ backgroundColor: 'transparent', border: '1px solid var(--border-color)' }}>
+              {tag.name}
+            </span>
+          ))}
+        </div>
+      </GridContainer>
+
+      <GridContainer style={{ padding: '6rem 2rem' }}>
+        <article className="post-content" style={{ margin: '0 auto' }}>
           {post.content.split('\n').map((para, idx) => {
             if (!para) return <br key={idx} />;
-            // If the paragraph looks like a heading (e.g. short and no punctuation at the end, or we just want to style the first line)
-            // Just output standard paragraphs for now, user can format content manually
-            return <p key={idx} style={{ color: '#d1d5db' }}>{para}</p>;
+            return <p key={idx} style={{ color: '#d1d5db', fontSize: '1.25rem', lineHeight: '1.8' }}>{para}</p>;
           })}
-        </div>
+        </article>
+      </GridContainer>
 
-        <CommentsSection postId={post.id} />
-      </article>
+      <div>
+        <GridContainer style={{ padding: '6rem 2rem' }}>
+          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+            <CommentsSection postId={post.id} />
+          </div>
+        </GridContainer>
+      </div>
     </>
   );
 }

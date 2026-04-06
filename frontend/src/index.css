@@ -2,9 +2,9 @@
 
 :root {
   /* Aether Fox Inspired Palette */
-  --bg-color: #111111;
-  --bg-card: #151515;
-  --bg-hover: #1a1a1a;
+  --bg-color: oklch(20.5% 0 0);
+  --bg-card: oklch(25% 0 0);
+  --bg-hover: oklch(28% 0 0);
 
   --primary: #86e5ff;
   /* Cyan cyan button */
@@ -14,8 +14,8 @@
   --text-muted: #888888;
   --text-inverse: #0a0a0a;
 
-  --border-color: #2a2a2a;
-  --border-subtle: #1f1f1f;
+  --border-color: oklch(37.1% 0 0);
+  --border-subtle: oklch(30% 0 0);
 
   --radius: 0px;
   /* Sharp corners or small radius */
@@ -93,12 +93,10 @@ h6 {
 }
 
 /* Diagonal Background Pattern Utility */
+/* CHECK */
 .bg-diagonal {
-  background-image: repeating-linear-gradient(-45deg,
-      rgba(255, 255, 255, 0.02),
-      rgba(255, 255, 255, 0.02) 1px,
-      transparent 1px,
-      transparent 10px);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath d='M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2' stroke='rgba(255,255,255,0.1)' stroke-width='1.5'/%3E%3C/svg%3E");
+  opacity: 0.6;
 }
 
 /* Base Wrapper */
@@ -107,86 +105,61 @@ h6 {
   display: flex;
   flex-direction: column;
   position: relative;
-  /* Removed global background-image as requested */
 }
 
-/* Global Vertical Grid Lines - Responsive */
-.app-wrapper::before,
-.app-wrapper::after {
-  content: '';
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background-color: var(--border-color);
-  z-index: 10;
+/* Structural Grid Architecture (DRY) */
+.section-wrapper {
+  width: 100%;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+}
+
+.grid-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  position: relative;
+  padding: 0 2rem;
+}
+
+.grid-diamond {
+  position: absolute;
+  width: 8px;
+  /* size-2 */
+  height: 8px;
+  border: 1px solid #525252;
+  /* neutral-600 */
+  background-color: var(--bg-color);
+  /* bg-bg */
+  transform: rotate(45deg);
+  z-index: 50;
   pointer-events: none;
+  bottom: -4px;
+  /* visually -bottom-1 */
 }
 
-/* Default Desktop (>1200px) */
-.app-wrapper::before {
-  left: calc(50% - 600px);
+.grid-diamond.left {
+  left: -4px;
+  /* visually -left-1 */
 }
 
-.app-wrapper::after {
-  right: calc(50% - 600px);
-}
-
-/* Tablet / Mobile Peeking */
-@media (max-width: 1240px) {
-  .app-wrapper::before {
-    left: 24px;
-  }
-
-  .app-wrapper::after {
-    right: 24px;
-  }
-
-  .container {
-    padding-left: 24px;
-    padding-right: 24px;
-  }
+.grid-diamond.right {
+  right: -4px;
+  /* visually -right-1 */
 }
 
 @media (max-width: 768px) {
-  .app-wrapper::before {
-    left: 12px;
+  .grid-container {
+    padding: 0 1rem;
+    border-left: none;
+    border-right: none;
   }
 
-  .app-wrapper::after {
-    right: 12px;
+  .grid-diamond {
+    display: none;
   }
-
-  .container {
-    padding-left: 12px;
-    padding-right: 12px;
-  }
-}
-
-/* Intersection Diamonds (Refined Relative Version) */
-.grid-intersection {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  border: 1px solid #525252;
-  background-color: var(--bg-color);
-  transform: rotate(45deg);
-  z-index: 100;
-  pointer-events: none;
-}
-
-/* Diamonds now snap to parent edges for perfect alignment */
-.grid-intersection.left {
-  left: -4px;
-}
-
-.grid-intersection.right {
-  right: -4px;
-}
-
-.border-b-grid {
-  position: relative;
-  border-bottom: 1px solid var(--border-color);
 }
 
 /* Main Layout */
@@ -194,7 +167,7 @@ h6 {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  /* padding: 0 2rem; */
+  padding: 0 2rem;
 }
 
 /* Navbar */
@@ -202,14 +175,12 @@ h6 {
   position: sticky;
   top: 0;
   z-index: 500;
-  background-color: rgba(17, 17, 17, 0.8);
-  backdrop-filter: blur(8px);
+  background-color: color-mix(in oklab, var(--bg-color) 50%, transparent);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  /* The navbar handles its own border-bottom through section-wrapper now, 
+     or we apply border here if it's not wrapped. Based on logic, we will wrap it. */
   border-bottom: 1px solid var(--border-color);
-  background-image: repeating-linear-gradient(-45deg,
-      rgba(255, 255, 255, 0.05),
-      rgba(255, 255, 255, 0.05) 1px,
-      transparent 1px,
-      transparent 5px);
 }
 
 .navbar .container {
@@ -436,15 +407,11 @@ h6 {
 /* HOME PAGE & POSTS */
 .post-grid {
   display: flex;
-  /* Using flex column instead of grid for aetherfox vibe */
   flex-direction: column;
-  margin-top: 2rem;
-  border-top: 1px solid var(--border-color);
 }
 
 .post-card {
   background: transparent;
-  border-bottom: 1px solid var(--border-color);
   padding: 2.5rem 0;
   display: flex;
   flex-direction: row;
@@ -454,15 +421,11 @@ h6 {
   position: relative;
   text-decoration: none;
   cursor: pointer;
+  /* Removed border-bottom as it is handled by the GridContainer wrapper now */
 }
 
 .post-card:hover {
   background-color: rgba(255, 255, 255, 0.01);
-  background-image: repeating-linear-gradient(-45deg,
-      rgba(255, 255, 255, 0.02),
-      rgba(255, 255, 255, 0.02) 1px,
-      transparent 1px,
-      transparent 10px);
 }
 
 .post-card:hover .title {
@@ -523,21 +486,8 @@ h6 {
 }
 
 .hero-section {
-  background-image: repeating-linear-gradient(-45deg,
-      rgba(255, 255, 255, 0.02),
-      rgba(255, 255, 255, 0.02) 1px,
-      transparent 1px,
-      transparent 10px);
-  position: relative;
-  overflow: hidden;
-  padding: 8rem 2rem;
-  text-align: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  min-height: 600px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /* Pattern is now handled natively via GridContainer showPattern prop */
+  opacity: 1;
 }
 
 /* LOADING STATES */
@@ -600,11 +550,7 @@ h6 {
 }
 
 /* COMMENTS SECTION */
-.comments-section {
-  margin-top: 5rem;
-  padding-top: 3rem;
-  border-top: 1px solid var(--border-color);
-}
+.comments-section {}
 
 .comment-card {
   background: var(--bg-card);
@@ -630,7 +576,6 @@ h6 {
   z-index: 1000;
   display: flex;
   justify-content: flex-end;
-  animation: fadeIn 0.3s ease;
 }
 
 .drawer-content {
@@ -643,7 +588,6 @@ h6 {
   display: flex;
   flex-direction: column;
   box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
-  animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .drawer-header {
@@ -686,24 +630,17 @@ h6 {
   border-top: 1px solid var(--border-color);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
+.social-link {
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@keyframes slideInRight {
-  from {
-    transform: translateX(100%);
-  }
-
-  to {
-    transform: translateX(0);
-  }
+.social-link:hover {
+  color: var(--text-main);
+  transform: translateY(-2px);
 }
 
 

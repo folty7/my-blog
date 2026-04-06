@@ -6,6 +6,7 @@ import * as z from 'zod';
 import { postService } from '../api/postService';
 import { Send, Type, Hash, Link as LinkIcon, AlertCircle } from 'lucide-react';
 import { getApiError } from '../../utils/errorHandler';
+import GridContainer from '../components/GridContainer';
 
 // Helper to generate slug from title
 const generateSlug = (text: string) => {
@@ -77,85 +78,87 @@ export default function CreatePostPage() {
   };
 
   return (
-    <div className="container py-12">
-      <div className="auth-card" style={{ maxWidth: '800px' }}>
-        <div className="auth-header">
-          <h1 style={{ fontSize: '2.5rem' }}>Write a New Story</h1>
-          <p>Share your thoughts with the world</p>
-        </div>
-
-        <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
-          {error && (
-            <div className="form-error">
-              <AlertCircle size={18} />
-              <span>{error}</span>
-            </div>
-          )}
-
-          <div className="form-group">
-            <label>Title</label>
-            <div className="input-with-icon">
-              <Type size={18} />
-              <input
-                {...register('title')}
-                type="text"
-                placeholder="A catchy title..."
-                className={errors.title ? 'input-error' : ''}
-              />
-            </div>
-            {errors.title && <p className="field-error">{errors.title.message}</p>}
+    <>
+      <GridContainer showPattern={true} style={{ padding: '6rem 2rem' }}>
+        <div className="auth-card" style={{ maxWidth: '800px' }}>
+          <div className="auth-header">
+            <h1 style={{ fontSize: '2.5rem' }}>Write a New Story</h1>
+            <p>Share your thoughts with the world</p>
           </div>
 
-          <div className="form-group">
-            <label>Slug (URL Friendly)</label>
-            <div className="input-with-icon">
-              <LinkIcon size={18} />
-              <input
-                {...register('slug')}
-                type="text"
-                placeholder="my-cool-post"
-                className={errors.slug ? 'input-error' : ''}
-              />
-            </div>
-            {errors.slug && <p className="field-error">{errors.slug.message}</p>}
-          </div>
-
-          <div className="form-group">
-            <label>Tags (comma separated)</label>
-            <div className="input-with-icon">
-              <Hash size={18} />
-              <input
-                {...register('tags')}
-                type="text"
-                placeholder="react, tutorial, tech..."
-                className={errors.tags ? 'input-error' : ''}
-              />
-            </div>
-            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
-              Add keywords to help readers find your post.
-            </p>
-          </div>
-
-          <div className="form-group">
-            <label>Content</label>
-            <textarea
-              {...register('content')}
-              placeholder="What's on your mind?"
-              className={errors.content ? 'input-error' : ''}
-            />
-            {errors.content && <p className="field-error">{errors.content.message}</p>}
-          </div>
-
-          <button type="submit" disabled={loading} className="btn-submit" style={{ marginTop: '2rem' }}>
-            {loading ? "Publishing..." : (
-              <>
-                <Send size={20} />
-                <span>Publish Post</span>
-              </>
+          <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
+            {error && (
+              <div className="form-error">
+                <AlertCircle size={18} />
+                <span>{error}</span>
+              </div>
             )}
-          </button>
-        </form>
-      </div>
-    </div>
+
+            <div className="form-group">
+              <label>Title</label>
+              <div className="input-with-icon">
+                <Type size={18} />
+                <input
+                  {...register('title')}
+                  type="text"
+                  placeholder="A catchy title..."
+                  className={errors.title ? 'input-error' : ''}
+                />
+              </div>
+              {errors.title && <p className="field-error">{errors.title.message}</p>}
+            </div>
+
+            <div className="form-group">
+              <label>Slug (URL Friendly)</label>
+              <div className="input-with-icon">
+                <LinkIcon size={18} />
+                <input
+                  {...register('slug')}
+                  type="text"
+                  placeholder="my-cool-post"
+                  className={errors.slug ? 'input-error' : ''}
+                />
+              </div>
+              {errors.slug && <p className="field-error">{errors.slug.message}</p>}
+            </div>
+
+            <div className="form-group">
+              <label>Tags (comma separated)</label>
+              <div className="input-with-icon">
+                <Hash size={18} />
+                <input
+                  {...register('tags')}
+                  type="text"
+                  placeholder="react, tutorial, tech..."
+                  className={errors.tags ? 'input-error' : ''}
+                />
+              </div>
+              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
+                Add keywords to help readers find your post.
+              </p>
+            </div>
+
+            <div className="form-group">
+              <label>Content</label>
+              <textarea
+                {...register('content')}
+                placeholder="What's on your mind?"
+                className={errors.content ? 'input-error' : ''}
+              />
+              {errors.content && <p className="field-error">{errors.content.message}</p>}
+            </div>
+
+            <button type="submit" disabled={loading} className="btn-submit" style={{ marginTop: '2rem' }}>
+              {loading ? "Publishing..." : (
+                <>
+                  <Send size={20} />
+                  <span>Publish Post</span>
+                </>
+              )}
+            </button>
+          </form>
+        </div>
+      </GridContainer>
+    </>
   );
 }

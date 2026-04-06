@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { postService } from '../api/postService';
 import { AlertCircle } from 'lucide-react';
 import PixelSnow from '../components/PixelSnow';
+import GridContainer from '../components/GridContainer';
 
 
 export default function HomePage() {
@@ -25,7 +26,7 @@ export default function HomePage() {
       <div className="container py-12">
         <div className="form-error">
           <AlertCircle size={20} />
-          <span>Error loading posts: {(error as any).message}</span>
+          <span>Error loading posts: {error instanceof Error ? error.message : 'Unknown error'}</span>
         </div>
       </div>
     );
@@ -34,8 +35,8 @@ export default function HomePage() {
   return (
     <>
       {/* Hero Section */}
-      <div className="hero-section border-b-grid">
-        <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }}>
+      <GridContainer wrapperClassName="hero-section" showPattern={true} className="hero-content-wrapper" style={{ padding: '8rem 2rem', textAlign: 'center' }}>
+        <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, pointerEvents: 'none', zIndex: 0 }}>
           <PixelSnow
             color="#ffffff"
             flakeSize={0.01}
@@ -51,56 +52,52 @@ export default function HomePage() {
             variant="square"
           />
         </div>
-        <div className="container" style={{ position: 'relative', zIndex: 10, maxWidth: '800px' }}>
+        <div style={{ position: 'relative', zIndex: 10, maxWidth: '800px', margin: '0 auto' }}>
           <h1 className="text-display" style={{ marginBottom: '1.5rem' }}>Blog</h1>
           <p className="subtitle" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem', lineHeight: '1.8', margin: '0 auto', textTransform: 'lowercase' }}>
             Our blog offers tips and strategies written by experts to enhance your web presence, attract more customers, and thrive in the digital landscape.
           </p>
-          <div className="grid-intersection left" style={{ bottom: '-5px' }}></div>
-          <div className="grid-intersection right" style={{ bottom: '-5px' }}></div>
         </div>
-      </div>
+      </GridContainer>
 
       {/* Posts Section */}
-      <div className="container" style={{ paddingBottom: '6rem' }}>
-        <div className="border-b-grid" style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem 0', marginTop: '2rem' }}>
+      <div>
+        <GridContainer style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem 2rem' }}>
           <span className="mono-text">Posts</span>
-          <div className="grid-intersection left" style={{ bottom: '-5px' }}></div>
-          <div className="grid-intersection right" style={{ bottom: '-5px' }}></div>
-        </div>
+        </GridContainer>
 
-        <div className="post-grid">
+        <div className="post-list" style={{ display: 'flex', flexDirection: 'column' }}>
           {posts?.map((post) => (
-            <Link key={post.id} to={`/post/${post.slug}`} className="post-card">
-              {/* Left Column: Image Area (Mock) */}
-              <div style={{ width: '250px', height: '140px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span className="mono-text" style={{ fontSize: '0.7rem' }}>Môj Blog</span>
-              </div>
-
-              {/* Middle Column: Title & Excerpt */}
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <h2 className="title">{post.title}</h2>
-                <p className="excerpt">
-                  {post.content.length > 150
-                    ? post.content.substring(0, 150) + '...'
-                    : post.content}
-                </p>
-              </div>
-
-              {/* Right Column: Tags & Date */}
-              <div style={{ width: '200px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'flex-start', gap: '1rem' }}>
-                <div className="mono-text" style={{ fontSize: '0.75rem', color: 'var(--text-main)' }}>
-                  {new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+            <GridContainer key={post.id} style={{ padding: '0 2rem' }}>
+              <Link to={`/post/${post.slug}`} className="post-card">
+                {/* Left Column: Image Area (Mock) */}
+                <div style={{ width: '250px', height: '140px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span className="mono-text" style={{ fontSize: '0.7rem' }}>Môj Blog</span>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.35rem' }}>
-                  {post.tags.map((tag) => (
-                    <span key={tag.id} className="tag-badge">{tag.name}</span>
-                  ))}
+
+                {/* Middle Column: Title & Excerpt */}
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <h2 className="title">{post.title}</h2>
+                  <p className="excerpt">
+                    {post.content.length > 150
+                      ? post.content.substring(0, 150) + '...'
+                      : post.content}
+                  </p>
                 </div>
-              </div>
-              <div className="grid-intersection left" style={{ bottom: '-5px' }}></div>
-              <div className="grid-intersection right" style={{ bottom: '-5px' }}></div>
-            </Link>
+
+                {/* Right Column: Tags & Date */}
+                <div style={{ width: '200px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'flex-start', gap: '1rem' }}>
+                  <div className="mono-text" style={{ fontSize: '0.75rem', color: 'var(--text-main)' }}>
+                    {new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.35rem' }}>
+                    {post.tags.map((tag) => (
+                      <span key={tag.id} className="tag-badge">{tag.name}</span>
+                    ))}
+                  </div>
+                </div>
+              </Link>
+            </GridContainer>
           ))}
         </div>
 
