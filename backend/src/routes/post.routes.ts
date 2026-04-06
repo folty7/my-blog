@@ -13,6 +13,46 @@ interface PostRequestBody {
 
 const router = Router();
 
+// 0. GET MY POSTS (Protected)
+router.get('/my-posts', authenticateToken, async (req: AuthRequest, res) => {
+  try {
+    const authorId = req.user?.userId;
+    const posts = await prisma.post.findMany({
+      where: { authorId },
+      include: { tags: true },
+      orderBy: { createdAt: 'desc' }
+    });
+    res.json(posts);
+  } catch (error) {
+    logger.err(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// 1.5. GET POST BY ID (Public)
+router.get('/id/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const post = await prisma.post.findUnique({
+      where: { id: parseInt(String(id)) },
+      include: {
+        author: { select: { name: true, email: true } },
+        tags: true
+      }
+    });
+
+    if (!post) {
+      res.status(404).json({ error: 'Post not found' });
+      return;
+    }
+
+    res.json(post);
+  } catch (error) {
+    logger.err(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // 1. GET ALL POSTS (Public)
 router.get('/', async (req, res) => {
   try {

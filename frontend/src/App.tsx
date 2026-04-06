@@ -1,48 +1,46 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import { useAuthStore } from './store/authStore';
-import './App.css';
-
-const Home = () => {
-  const { user, isAuthenticated, logout } = useAuthStore();
-
-  return (
-    <div className="p-8">
-      <h1 className="text-4xl font-bold mb-4">Welcome to myBlog</h1>
-      {isAuthenticated ? (
-        <div>
-          <p className="mb-4">Hello, {user?.name || user?.email}!</p>
-          <button
-            onClick={logout}
-            className="bg-red-500 text-white px-4 py-2 rounded"
-          >
-            Logout
-          </button>
-        </div>
-      ) : (
-        <div className="flex gap-4">
-          <Link to="/login" className="bg-blue-500 text-white px-4 py-2 rounded">
-            Login
-          </Link>
-          <Link to="/register" className="bg-green-500 text-white px-4 py-2 rounded">
-            Register
-          </Link>
-        </div>
-      )}
-    </div>
-  );
-};
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import ProtectedRoute from './components/ProtectedRoute';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import HomePage from './pages/HomePage';
+import PostDetailPage from './pages/PostDetailPage';
+import CreatePostPage from './pages/CreatePostPage';
+import EditPostPage from './pages/EditPostPage';
+import DashboardPage from './pages/DashboardPage';
 
 export default function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
+      <div className="app-wrapper">
+        <Navbar />
+
+        <main className="main-content">
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/post/:slug" element={<PostDetailPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+
+            {/* Protected Routes */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/create-post" element={<CreatePostPage />} />
+              <Route path="/edit-post/:id" element={<EditPostPage />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
+            </Route>
+
+            {/* 404 Page (Optional) */}
+            <Route path="*" element={<div className="container py-12 text-center">404 - Page Not Found</div>} />
+          </Routes>
+        </main>
+
+        <footer className="footer">
+          <div className="container">
+            <p>&copy; 2026 MyBlog • Built with React & Node.js</p>
+          </div>
+        </footer>
+      </div>
     </Router>
   );
 }

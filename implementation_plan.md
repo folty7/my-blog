@@ -60,16 +60,18 @@ Here is a structured roadmap broken down into logical phases.
 - [ ] Write integration tests for Post and Auth endpoints.
 
 ### Phase 5: Core Blog Functionality (Frontend)
-- [ ] Setup TanStack Query for data fetching, caching, and state synchronization.
-- [ ] Create Home page with an infinite-scroll or paginated list of posts.
-- [ ] Create a standalone Post reading page (focus heavily on typography and readability using Tailwind Typography plugin).
-- [ ] Integrate a Rich Text Editor cleanly in a "Create Post" protected dashboard.
-- [ ] Implement Optimistic UI updates with TanStack Query.
+- [x] **5.1 Infrastructure:** Setup frontend core logic (TanStack Query, Zustand Persistence, Axios Interceptors, global error handling).
+- [x] **5.2 Home Feed:** Create Home page listing all published posts with dynamic layout and caching.
+- [x] **5.3 Post Detail:** Create standalone Post reading page for full articles with related authors and tags.
+- [x] **5.4 Content Creation:** Implement "Create Post" interface with sophisticated form validation (React Hook Form & Zod) and tag generation.
+- [x] **5.5 Discussion:** Implement an interactive Comments section using React Query Mutations for zero-refresh optimistic UI updates.
+- [x] **5.6 Post Management:** Implement Author Dashboard & Edit Post functionality (Full CRUD control for authors over their content).
 
 ### Phase 6: Polish & Testing
-- [ ] Implement Dark Mode toggle dynamically using TailwindCSS.
-- [ ] Add accessible UI skeleton loaders for loading states.
-- [ ] Write Playwright E2E tests for the critical path: `Login -> Create Post -> Validate Post exists`.
+- [ ] **UI Polish:** Create a dedicated "404 Not Found" page for unmatched routes and invalid slugs.
+- [ ] **UX Polish:** Optimize loading states by replacing simple spinners with Skeleton Loaders.
+- [ ] **Feature Edge Cases:** Implement User Profile settings (ability to view and update user details or passwords).
+- [ ] **Automated Testing:** Write Playwright E2E tests for the critical path: `Login -> Create Post -> Validate Post exists`.
 
 ### Phase 7: Azure Deployment
 - [ ] **Database:** Provision Azure Database for PostgreSQL (Flexible Server).
