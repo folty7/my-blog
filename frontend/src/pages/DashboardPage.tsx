@@ -70,11 +70,11 @@ export default function DashboardPage() {
                 <div className="tags-row" style={{ margin: 0 }}>
                   {post.tags.map(t => <span key={t.id} className="tag-badge">#{t.name}</span>)}
                 </div>
-                <div style={{ display: 'flex', gap: '8px' }}>
+                <div style={{ display: 'flex', gap: '12px' }}>
                   <Link
                     to={`/edit-post/${post.id}`}
                     className="btn-logout"
-                    style={{ padding: '6px', color: 'var(--primary)', border: '1px solid #e2e8f0' }}
+                    style={{ padding: '8px', color: 'var(--primary)', borderColor: 'var(--border-color)' }}
                     title="Edit post"
                   >
                     <Edit2 size={16} />
@@ -82,7 +82,7 @@ export default function DashboardPage() {
                   <button
                     onClick={() => handleDelete(post.id, post.title)}
                     className="btn-logout"
-                    style={{ padding: '6px', color: '#ef4444', border: '1px solid #fee2e2' }}
+                    style={{ padding: '8px', color: '#ef4444', borderColor: 'var(--border-color)' }}
                     title="Delete post"
                   >
                     <Trash2 size={16} />

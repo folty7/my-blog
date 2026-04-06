@@ -1,7 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { postService } from '../api/postService';
-import { User as UserIcon, ArrowLeft, Calendar } from 'lucide-react';
 import { getApiError } from '../../utils/errorHandler';
 import CommentsSection from '../components/CommentsSection';
 
@@ -38,45 +37,54 @@ export default function PostDetailPage() {
   }
 
   return (
-    <article className="container post-detail-container">
-      <Link to="/" className="btn-logout" style={{ marginBottom: '2rem', display: 'inline-flex', gap: '8px', padding: '8px 16px', borderRadius: '8px' }}>
-        <ArrowLeft size={18} /> <span>Back home</span>
-      </Link>
+    <>
+      <div style={{ position: 'relative', borderBottom: '1px solid var(--border-color)', overflow: 'hidden' }}>
+        {/* Subtle hero gradient background */}
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.2, background: 'linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%)', pointerEvents: 'none' }} />
 
-      <header className="post-header">
-        <div className="tags-row">
-          {post.tags.map((tag) => (
-            <span key={tag.id} className="tag-badge">#{tag.name}</span>
-          ))}
-        </div>
-
-        <h1 className="title-large">{post.title}</h1>
-
-        <div className="post-meta" style={{ border: 'none', padding: 0 }}>
-          <div className="user-info">
-            <UserIcon size={18} />
-            <span className="author-name" style={{ fontSize: '1rem' }}>{post.author.name}</span>
+        <div className="container" style={{ position: 'relative', maxWidth: '900px', padding: '6rem 2rem', textAlign: 'center', zIndex: 10 }}>
+          <div style={{ marginBottom: '4rem', textAlign: 'left' }}>
+            <Link
+              to="/"
+              className="mono-text"
+              style={{ padding: '0.5rem 1rem', border: '1px solid var(--border-color)', borderRadius: '32px', color: 'var(--text-muted)' }}
+            >
+              ← Back
+            </Link>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem' }}>
-            <Calendar size={16} />
-            <span>{new Date(post.createdAt).toLocaleDateString('en-US', {
+          <div className="mono-text" style={{ fontSize: '0.85rem', color: '#cda06b', marginBottom: '1rem' }}>
+            {new Date(post.createdAt).toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'long',
               day: 'numeric'
-            })}</span>
+            }).toUpperCase()}
+          </div>
+
+          <h1 className="title-large" style={{ fontSize: '4rem', marginBottom: '1.5rem' }}>{post.title}</h1>
+
+          <div className="tags-row" style={{ justifyContent: 'center', marginTop: '2rem' }}>
+            {post.tags.map((tag) => (
+              <span key={tag.id} className="tag-badge" style={{ backgroundColor: 'transparent', border: '1px solid var(--border-color)' }}>
+                {tag.name}
+              </span>
+            ))}
           </div>
         </div>
-      </header>
-
-      <div className="post-content">
-        {/* We map paragraphs to actual <p> tags for better spacing in CSS */}
-        {post.content.split('\n').map((para, idx) => (
-          para ? <p key={idx}>{para}</p> : <br key={idx} />
-        ))}
       </div>
 
-      <CommentsSection postId={post.id} />
-    </article>
+      <article className="container" style={{ maxWidth: '800px', padding: '4rem 2rem' }}>
+        <div className="post-content">
+          {post.content.split('\n').map((para, idx) => {
+            if (!para) return <br key={idx} />;
+            // If the paragraph looks like a heading (e.g. short and no punctuation at the end, or we just want to style the first line)
+            // Just output standard paragraphs for now, user can format content manually
+            return <p key={idx} style={{ color: '#d1d5db' }}>{para}</p>;
+          })}
+        </div>
+
+        <CommentsSection postId={post.id} />
+      </article>
+    </>
   );
 }
