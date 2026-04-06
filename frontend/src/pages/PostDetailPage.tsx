@@ -38,7 +38,7 @@ export default function PostDetailPage() {
 
   return (
     <>
-      <div style={{ position: 'relative', borderBottom: '1px solid var(--border-color)', overflow: 'hidden' }}>
+      <div className="border-b-grid" style={{ position: 'relative', overflow: 'hidden' }}>
         {/* Subtle hero gradient background */}
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.2, background: 'linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%)', pointerEvents: 'none' }} />
 

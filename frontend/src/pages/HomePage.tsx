@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { postService } from '../api/postService';
 import { AlertCircle } from 'lucide-react';
+import PixelSnow from '../components/PixelSnow';
+
 
 export default function HomePage() {
   const { data: posts, isLoading, isError, error } = useQuery({
@@ -32,10 +34,23 @@ export default function HomePage() {
   return (
     <>
       {/* Hero Section */}
-      <div className="hero-section" style={{ position: 'relative', overflow: 'hidden', padding: '8rem 2rem', textAlign: 'center', borderBottom: '1px solid var(--border-color)' }}>
-        {/* Simple static pure CSS stars/particles simulation */}
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none', backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px), radial-gradient(circle, #ffffff 1px, transparent 1px)', backgroundSize: '100px 100px, 60px 60px', backgroundPosition: '0 0, 30px 30px', opacity: 0.05 }} />
-
+      <div className="hero-section border-b-grid" style={{ position: 'relative', overflow: 'hidden', padding: '8rem 2rem', textAlign: 'center' }}>
+        <div style={{ width: '100%', maxWidth: '800px', height: '600px', position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }}>
+          <PixelSnow
+            color="#ffffff"
+            flakeSize={0.01}
+            minFlakeSize={1.25}
+            pixelResolution={180}
+            speed={0.8}
+            density={0.25}
+            direction={125}
+            brightness={1}
+            depthFade={8}
+            farPlane={20}
+            gamma={0.4545}
+            variant="square"
+          />
+        </div>
         <div className="container" style={{ position: 'relative', zIndex: 10, maxWidth: '800px' }}>
           <h1 className="text-display" style={{ marginBottom: '1.5rem' }}>Blog</h1>
           <p className="subtitle" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem', lineHeight: '1.8', margin: '0 auto', textTransform: 'lowercase' }}>
@@ -46,7 +61,7 @@ export default function HomePage() {
 
       {/* Posts Section */}
       <div className="container" style={{ paddingBottom: '6rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', padding: '1.5rem 0', marginTop: '2rem' }}>
+        <div className="border-b-grid" style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem 0', marginTop: '2rem' }}>
           <span className="mono-text">Posts</span>
         </div>
 
