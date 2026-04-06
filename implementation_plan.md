@@ -67,7 +67,11 @@ Here is a structured roadmap broken down into logical phases.
 - [x] **5.5 Discussion:** Implement an interactive Comments section using React Query Mutations for zero-refresh optimistic UI updates.
 - [x] **5.6 Post Management:** Implement Author Dashboard & Edit Post functionality (Full CRUD control for authors over their content).
 
-### Phase 6: Polish & Testing
+### Phase 6: Accessibility, Polish & Testing
+- [ ] **Accessibility Audit:** Conduct a full a11y audit using Lighthouse/Axe and fix all "High" priority violations.
+- [ ] **Semantic & ARIA:** Ensure all components use semantic HTML (e.g., `<main>`, `<article>`, `<nav>`) and have descriptive `aria-label` attributes where text content is missing (e.g., icon-only buttons).
+- [ ] **Keyboard Navigation:** Implement "Skip to Content" links and ensure logical tab order and highly visible focus indicators across the site.
+- [ ] **Color & Contrast:** Verify that the dark mode palette meets WCAG AA standards for text-to-background contrast.
 - [ ] **UI Polish:** Create a dedicated "404 Not Found" page for unmatched routes and invalid slugs.
 - [ ] **UX Polish:** Optimize loading states by replacing simple spinners with Skeleton Loaders.
 - [ ] **Feature Edge Cases:** Implement User Profile settings (ability to view and update user details or passwords).

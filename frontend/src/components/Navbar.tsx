@@ -60,7 +60,7 @@ export default function Navbar() {
               style={{ width: '100%', maxWidth: '400px', backgroundColor: 'var(--bg-card)', height: '100%', borderLeft: '1px solid var(--border-color)', padding: '2.5rem', display: 'flex', flexDirection: 'column', boxShadow: '-10px 0 30px rgba(0,0,0,0.5)' }}
             >
               <div className="drawer-header">
-                <span className="logo" style={{ fontSize: '1.25rem' }}>Fox Studio</span>
+                <span className="logo" style={{ fontSize: '1.25rem' }}>Môj Blog</span>
                 <X size={24} style={{ cursor: 'pointer', color: 'var(--text-main)' }} onClick={toggleDrawer} />
               </div>
 
@@ -102,7 +102,7 @@ export default function Navbar() {
                       <User size={20} /> <span>Sign In</span>
                     </Link>
                     <Link to="/register" onClick={toggleDrawer} className="drawer-link">
-                      <Rocket size={20} /> <span>Join the Studio</span>
+                      <Rocket size={20} /> <span>Join the Blog</span>
                     </Link>
                   </>
                 )}
@@ -120,7 +120,7 @@ export default function Navbar() {
                   <a href="#" className="social-link" style={{ color: 'var(--text-muted)' }}><Twitter size={18} /></a>
                   <a href="#" className="social-link" style={{ color: 'var(--text-muted)' }}><Linkedin size={18} /></a>
                 </div>
-                <p className="subtitle" style={{ fontSize: '0.75rem', textAlign: 'center' }}>© 2026 Moj Blog Studio.</p>
+                <p className="subtitle" style={{ fontSize: '0.75rem', textAlign: 'center' }}>© 2026 Môj Blog.</p>
               </div>
             </motion.div>
           </motion.div>

@@ -53,9 +53,9 @@ export default function HomePage() {
           />
         </div>
         <div style={{ position: 'relative', zIndex: 10, maxWidth: '800px', margin: '0 auto' }}>
-          <h1 className="text-display" style={{ marginBottom: '1.5rem' }}>Blog</h1>
+          <h1 className="text-display" style={{ marginBottom: '1.5rem' }}>My Coding Journey</h1>
           <p className="subtitle" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem', lineHeight: '1.8', margin: '0 auto', textTransform: 'lowercase' }}>
-            Our blog offers tips and strategies written by experts to enhance your web presence, attract more customers, and thrive in the digital landscape.
+            welcome to my personal corner of the web. here i document my coding journey, share insights on software engineering, discuss tech news, and explore new technologies.
           </p>
         </div>
       </GridContainer>
