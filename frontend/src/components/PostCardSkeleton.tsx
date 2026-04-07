@@ -6,12 +6,12 @@ export default function PostCardSkeleton() {
     <GridContainer>
       <div className="post-card" style={{ pointerEvents: 'none' }}>
         {/* Left Column: Image Area Skeleton */}
-        <div style={{ width: '250px', height: '140px', overflow: 'hidden' }}>
+        <div className="post-card-image">
           <Skeleton style={{ width: '100%', height: '100%' }} />
         </div>
 
         {/* Middle Column: Title & Excerpt Skeleton */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <div className="post-card-content" style={{ gap: '1rem' }}>
           <Skeleton style={{ width: '70%', height: '2rem' }} /> {/* Title */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             <Skeleton style={{ width: '100%', height: '1rem' }} /> {/* Excerpt line 1 */}
@@ -21,9 +21,9 @@ export default function PostCardSkeleton() {
         </div>
 
         {/* Right Column: Tags & Date Skeleton */}
-        <div style={{ width: '200px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'flex-start', gap: '1rem' }}>
+        <div className="post-card-meta">
           <Skeleton style={{ width: '80px', height: '1rem' }} /> {/* Date */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.35rem' }}>
+          <div className="tags-row" style={{ flexDirection: 'column', alignItems: 'flex-end', gap: '0.35rem' }}>
             <Skeleton style={{ width: '60px', height: '1.5rem' }} /> {/* Tag 1 */}
             <Skeleton style={{ width: '75px', height: '1.5rem' }} /> {/* Tag 2 */}
           </div>

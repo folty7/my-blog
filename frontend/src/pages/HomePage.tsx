@@ -24,7 +24,7 @@ export default function HomePage() {
             <Skeleton style={{ width: '80%', height: '1.5rem', margin: '0 auto' }} />
           </div>
         </GridContainer>
-        
+
         <div>
           <GridContainer style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem 2rem' }}>
             <Skeleton style={{ width: '100px', height: '1.25rem' }} />
@@ -53,7 +53,7 @@ export default function HomePage() {
   return (
     <>
       {/* Hero Section */}
-      <GridContainer wrapperClassName="hero-section" showPattern={true} className="hero-content-wrapper" style={{ padding: '8rem 2rem', textAlign: 'center' }}>
+      <GridContainer wrapperClassName="hero-section" showPattern={true} className="hero-content-wrapper" style={{ padding: '8rem 2rem', textAlign: 'center', minHeight: '600px', height: 'max-content', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, pointerEvents: 'none', zIndex: 0 }}>
           <PixelSnow
             color="#ffffff"
@@ -89,7 +89,7 @@ export default function HomePage() {
             <GridContainer key={post.id}>
               <Link to={`/post/${post.slug}`} className="post-card">
                 {/* Left Column: Image Area */}
-                <div style={{ width: '250px', height: '140px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                <div className="post-card-image">
                   {post.imageUrl ? (
                     <img src={`http://localhost:3000${post.imageUrl}`} alt={post.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (
@@ -98,7 +98,7 @@ export default function HomePage() {
                 </div>
 
                 {/* Middle Column: Title & Excerpt */}
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <div className="post-card-content">
                   <h2 className="title">{post.title}</h2>
                   <p className="excerpt">
                     {post.content.length > 150
@@ -108,11 +108,11 @@ export default function HomePage() {
                 </div>
 
                 {/* Right Column: Tags & Date */}
-                <div style={{ width: '200px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'flex-start', gap: '1rem' }}>
-                  <div className="mono-text" style={{ fontSize: '0.75rem', color: 'var(--text-main)' }}>
+                <div className="post-card-meta">
+                  <div className="mono-text" style={{ fontSize: '0.75rem', color: 'var(--text-main)', whiteSpace: 'nowrap' }}>
                     {new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                   </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.35rem' }}>
+                  <div className="tags-row" style={{ flexDirection: 'row', alignItems: 'flex-end', gap: '0.35rem' }}>
                     {post.tags.map((tag) => (
                       <span key={tag.id} className="tag-badge">{tag.name}</span>
                     ))}
