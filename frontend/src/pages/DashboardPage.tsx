@@ -69,12 +69,9 @@ export default function DashboardPage() {
         ) : (
           <div className="post-list" style={{ display: 'flex', flexDirection: 'column' }}>
             {posts?.map((post) => (
-              <GridContainer key={post.id} style={{ padding: '2.5rem 2rem' }}>
-                <article className="post-card" style={{ padding: 0 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
-                    <div className="tags-row" style={{ margin: 0 }}>
-                      {post.tags.map(t => <span key={t.id} className="tag-badge">#{t.name}</span>)}
-                    </div>
+              <GridContainer key={post.id}>
+                <article className="post-card" style={{ padding: '2.5rem 2rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'flex-start', marginBottom: '1rem' }}>
                     <div style={{ display: 'flex', gap: '12px' }}>
                       <Link
                         to={`/edit-post/${post.id}`}
@@ -104,8 +101,13 @@ export default function DashboardPage() {
                     <Link to={`/post/${post.slug}`}>{post.title}</Link>
                   </h2>
 
+
+
                   <div className="post-meta" style={{ border: 'none', padding: 0 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <div className="tags-row" style={{ margin: 0 }}>
+                        {post.tags.map(t => <span key={t.id} className="tag-badge">#{t.name}</span>)}
+                      </div>
                       <MessageSquare size={14} />
                       <span>{post._count?.comments || 0} comments</span>
                     </div>

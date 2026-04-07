@@ -5,6 +5,7 @@ import { getApiError } from '../../utils/errorHandler';
 import { ArrowLeft } from 'lucide-react';
 import CommentsSection from '../components/CommentsSection';
 import GridContainer from '../components/GridContainer';
+import Skeleton from '../components/Skeleton';
 
 export default function PostDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -18,10 +19,42 @@ export default function PostDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="container loading-container">
-        <div className="spinner"></div>
-        <p>Opening the story...</p>
-      </div>
+      <>
+        {/* Skeleton Hero */}
+        <GridContainer
+          wrapperClassName="hero-section"
+          showPattern={true}
+          style={{
+            position: 'relative',
+            padding: '8rem 2rem',
+            textAlign: 'center',
+            zIndex: 10,
+          }}
+        >
+          <div style={{ position: 'relative', maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Skeleton style={{ width: '150px', height: '1.5rem', marginBottom: '1.5rem', borderRadius: '50px' }} />
+            <Skeleton style={{ width: '80%', height: '4rem', marginBottom: '2rem' }} />
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+              <Skeleton style={{ width: '60px', height: '1.5rem', borderRadius: '50px' }} />
+              <Skeleton style={{ width: '80px', height: '1.5rem', borderRadius: '50px' }} />
+            </div>
+          </div>
+        </GridContainer>
+
+        {/* Skeleton Content */}
+        <GridContainer style={{ padding: '6rem 2rem' }}>
+          <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <Skeleton style={{ width: '100%', height: '1.25rem' }} />
+            <Skeleton style={{ width: '95%', height: '1.25rem' }} />
+            <Skeleton style={{ width: '98%', height: '1.25rem' }} />
+            <Skeleton style={{ width: '60%', height: '1.25rem', marginBottom: '2rem' }} />
+            
+            <Skeleton style={{ width: '100%', height: '1.25rem' }} />
+            <Skeleton style={{ width: '92%', height: '1.25rem' }} />
+            <Skeleton style={{ width: '40%', height: '1.25rem' }} />
+          </div>
+        </GridContainer>
+      </>
     );
   }
 

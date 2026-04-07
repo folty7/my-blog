@@ -534,6 +534,26 @@ h6 {
   margin-bottom: 1rem;
 }
 
+/* SKELETON LOADERS */
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg,
+      var(--bg-card) 25%,
+      var(--bg-hover) 50%,
+      var(--bg-card) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 2s infinite linear;
+}
+
 /* POST DETAIL VIEW */
 .post-detail-container {
   max-width: 800px;
@@ -569,8 +589,6 @@ h6 {
 }
 
 /* COMMENTS SECTION */
-.comments-section {}
-
 .comment-card {
   background: var(--bg-card);
   padding: 1.5rem;
@@ -627,7 +645,7 @@ h6 {
   display: flex;
   align-items: center;
   gap: 1rem;
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-size: 1.5rem;
   padding: 1rem 0;
   color: var(--text-muted);

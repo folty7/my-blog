@@ -8,6 +8,7 @@ import PostDetailPage from './pages/PostDetailPage';
 import CreatePostPage from './pages/CreatePostPage';
 import EditPostPage from './pages/EditPostPage';
 import DashboardPage from './pages/DashboardPage';
+import NotFoundPage from './pages/NotFoundPage';
 import { AnimatePresence, motion } from 'framer-motion';
 
 function AnimatedRoutes() {
@@ -36,8 +37,8 @@ function AnimatedRoutes() {
             <Route path="/dashboard" element={<DashboardPage />} />
           </Route>
 
-          {/* 404 Page (Optional) */}
-          <Route path="*" element={<div className="container py-12 text-center">404 - Page Not Found</div>} />
+          {/* 404 Page */}
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </motion.div>
     </AnimatePresence>

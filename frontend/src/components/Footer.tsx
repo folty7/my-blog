@@ -1,4 +1,4 @@
-import { Github, Twitter, Linkedin, Facebook, Instagram, Wind } from 'lucide-react';
+import { Github, Linkedin, Instagram } from 'lucide-react';
 import GridContainer from './GridContainer';
 import { Link } from 'react-router-dom';
 
@@ -22,11 +22,8 @@ export default function Footer() {
 
           <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1rem' }}>
             <a href="#" className="social-link"><Github size={20} /></a>
-            <a href="#" className="social-link"><Twitter size={20} /></a>
             <a href="#" className="social-link"><Linkedin size={20} /></a>
-            <a href="#" className="social-link"><Facebook size={20} /></a>
             <a href="#" className="social-link"><Instagram size={20} /></a>
-            <a href="#" className="social-link"><Wind size={20} /></a>
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', color: 'var(--text-muted)', fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>

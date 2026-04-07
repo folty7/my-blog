@@ -4,6 +4,8 @@ import { postService } from '../api/postService';
 import { AlertCircle } from 'lucide-react';
 import PixelSnow from '../components/PixelSnow';
 import GridContainer from '../components/GridContainer';
+import Skeleton from '../components/Skeleton';
+import PostCardSkeleton from '../components/PostCardSkeleton';
 
 
 export default function HomePage() {
@@ -14,10 +16,26 @@ export default function HomePage() {
 
   if (isLoading) {
     return (
-      <div className="container loading-container">
-        <div className="spinner"></div>
-        <p>Fetching latest posts...</p>
-      </div>
+      <>
+        {/* Placeholder Hero for Loading State */}
+        <GridContainer wrapperClassName="hero-section" showPattern={true} className="hero-content-wrapper" style={{ padding: '8rem 2rem' }}>
+          <div style={{ position: 'relative', zIndex: 10, maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
+            <Skeleton style={{ width: '60%', height: '4rem', margin: '0 auto 1.5rem' }} />
+            <Skeleton style={{ width: '80%', height: '1.5rem', margin: '0 auto' }} />
+          </div>
+        </GridContainer>
+        
+        <div>
+          <GridContainer style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem 2rem' }}>
+            <Skeleton style={{ width: '100px', height: '1.25rem' }} />
+          </GridContainer>
+          <div className="post-list" style={{ display: 'flex', flexDirection: 'column' }}>
+            {[1, 2, 3].map((i) => (
+              <PostCardSkeleton key={i} />
+            ))}
+          </div>
+        </div>
+      </>
     );
   }
 
