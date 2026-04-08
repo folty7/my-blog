@@ -1,0 +1,10 @@
+node_modules
+dist
+logs
+.idea
+.vscode
+.git
+tests
+vitest.config.mts
+*.log
+.DS_Store

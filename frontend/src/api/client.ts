@@ -4,7 +4,7 @@ import { useAuthStore } from '../store/authStore';
 // We create a base instance of Axios. 
 // This way we only change the BASE_URL in ONE place if needed.
 const apiClient = axios.create({
-  baseURL: 'http://localhost:3000/api/v1',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },
