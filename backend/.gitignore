@@ -5,3 +5,5 @@ tsconfig.tsbuildinfo
 
 /generated/prisma
 /src/generated
+
+/config/.env.*

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { commentService } from '../api/commentService';
 import { useAuthStore } from '../store/authStore';
-import { Send, Trash2, MessageCircle, AlertCircle } from 'lucide-react';
+import { Send, Trash2, MessageCircle } from 'lucide-react';
 import { getApiError } from '../../utils/errorHandler';
 
 interface CommentsSectionProps {

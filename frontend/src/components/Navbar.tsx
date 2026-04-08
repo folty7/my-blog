@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
-import { LogOut, User, Rocket, Menu, X, BookOpen, UserCircle, Briefcase, Mail, Github, Twitter, Linkedin } from 'lucide-react';
+import { LogOut, User, Rocket, Menu, X, BookOpen, Briefcase, Mail, Github, Twitter, Linkedin } from 'lucide-react';
 import GridContainer from './GridContainer';
 import { AnimatePresence, motion } from 'framer-motion';
 

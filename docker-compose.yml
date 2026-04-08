@@ -6,8 +6,8 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: adminpassword
+      POSTGRES_USER: blog-admin
+      POSTGRES_PASSWORD: blog-admin-password
       POSTGRES_DB: blog_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
