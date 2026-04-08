@@ -35,10 +35,14 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/config ./config
 COPY --from=builder /app/prisma ./prisma
 
+# Copy startup script
+COPY start.sh ./start.sh
+RUN chmod +x ./start.sh
+
 # Generate Prisma Client again for the smaller production node_modules
 RUN npx prisma generate
 
 EXPOSE 8081
 
-# Start the application
-CMD ["npm", "start"]
+# Run migrations then start the server
+CMD ["./start.sh"]

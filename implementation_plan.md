@@ -77,8 +77,10 @@ Here is a structured roadmap broken down into logical phases.
 - [ ] **Feature Edge Cases:** Implement User Profile settings (ability to view and update user details or passwords).
 - [ ] **Automated Testing:** Write Playwright E2E tests for the critical path: `Login -> Create Post -> Validate Post exists`.
 
-### Phase 7: Azure Deployment
-- [ ] **Database:** Provision Azure Database for PostgreSQL (Flexible Server).
-- [ ] **Backend:** Provision **Azure App Service** (Linux/Node.js) to host your Express Server API.
-- [ ] **Frontend:** Provision **Azure Static Web Apps (SWA)**. SWA is optimized specifically for SPAs, provides free SSL, edge caching, and automatically integrates with GitHub Actions for deployment from a monorepo context.
-- [ ] Configure Environment Variables safely across both platforms.
+### Phase 7: Deployment
+- [x] Provision **Azure Database for PostgreSQL** (Flexible Server) — already running.
+- [x] Write multi-stage **Dockerfile** and `.dockerignore` for the backend.
+- [x] Write `start.sh` startup script to run `prisma migrate deploy` before server start.
+- [ ] **Backend:** Deploy to **Vercel** (serverless Node.js). Configure `DATABASE_URL`, `JWT_SECRET`, `NODE_ENV` as environment variables.
+- [ ] **Frontend:** Deploy to **Vercel**. Configure `VITE_API_URL` to point to the backend Vercel URL.
+- [ ] Configure GitHub integration on Vercel for automatic deploys on push to `main`.
