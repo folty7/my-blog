@@ -16,8 +16,8 @@ COPY . .
 # Generate Prisma Client
 RUN npx prisma generate
 
-# Build the project
-RUN npm run build
+# Build the project (skip lint - not needed in build environment)
+RUN npx tsc --project tsconfig.prod.json && npm run build:copy-static && npm run build:make-db
 
 
 
