@@ -1,11 +1,11 @@
 import dotenv from "dotenv";
-import path from "path";
+
 import { defineConfig } from "prisma/config";
 
-// Load environment variables from our config folder
-// We use DOTENV_CONFIG_PATH if set, otherwise default to config/.env.development
-const envPath = process.env.DOTENV_CONFIG_PATH || path.resolve(__dirname, "config/.env.development");
-dotenv.config({ path: envPath });
+// Load environment variables from .env file if path is specified (local dev only)
+if (process.env.DOTENV_CONFIG_PATH) {
+  dotenv.config({ path: process.env.DOTENV_CONFIG_PATH });
+}
 
 export default defineConfig({
   schema: "prisma/schema.prisma",
