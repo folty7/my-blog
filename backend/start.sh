@@ -5,4 +5,4 @@ echo "Running Prisma migrations..."
 npx prisma migrate deploy
 
 echo "Starting server..."
-exec npm start
+exec node -r dotenv/config -r module-alias/register ./dist/main.js

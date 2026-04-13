@@ -30,9 +30,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --omit=dev
 
-# Copy built app and configuration from builder
+# Copy built app from builder
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/config ./config
 COPY --from=builder /app/prisma ./prisma
 
 # Copy startup script
