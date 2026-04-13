@@ -20,6 +20,7 @@
   "exclude": [
     "tests",
     "src/public/",
+    "src/controllers/",
     "scripts",
     "eslint.config.ts",
     "vitest.config.js"
