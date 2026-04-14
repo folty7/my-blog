@@ -33,6 +33,7 @@ RUN npm install --omit=dev
 # Copy built app from builder
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
 
 # Copy startup script
 COPY start.sh ./start.sh
