@@ -50,7 +50,7 @@ export default function EditPostPage() {
       setValue('tags', post.tags.map((t: Tag) => t.name).join(', '));
       if (post.imageUrl) {
         setCurrentImageUrl(post.imageUrl);
-        setPreviewUrl(`http://localhost:3000${post.imageUrl}`);
+        setPreviewUrl(`${import.meta.env.VITE_API_URL?.replace('/api/v1', '') || 'http://localhost:3000'}${post.imageUrl}`);
       }
     }
   }, [post, setValue]);

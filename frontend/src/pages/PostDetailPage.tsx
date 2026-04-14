@@ -81,7 +81,7 @@ export default function PostDetailPage() {
           padding: '8rem 2rem',
           textAlign: 'center',
           zIndex: 10,
-          backgroundImage: post.imageUrl ? `url(http://localhost:3000${post.imageUrl})` : 'none',
+          backgroundImage: post.imageUrl ? `url(${import.meta.env.VITE_API_URL?.replace('/api/v1', '') || 'http://localhost:3000'}${post.imageUrl})` : 'none',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           overflow: 'hidden'

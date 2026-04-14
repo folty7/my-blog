@@ -91,7 +91,7 @@ export default function HomePage() {
                 {/* Left Column: Image Area */}
                 <div className="post-card-image">
                   {post.imageUrl ? (
-                    <img src={`http://localhost:3000${post.imageUrl}`} alt={post.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={`${import.meta.env.VITE_API_URL?.replace('/api/v1', '') || 'http://localhost:3000'}${post.imageUrl}`} alt={post.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (
                     <span className="mono-text" style={{ fontSize: '0.7rem' }}>Môj Blog</span>
                   )}
