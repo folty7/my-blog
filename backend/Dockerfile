@@ -39,8 +39,8 @@ COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
 COPY start.sh ./start.sh
 RUN chmod +x ./start.sh
 
-# Generate Prisma Client again for the smaller production node_modules
-RUN npx prisma generate
+# Generate Prisma Client and move it to where the compiled code expects it (dist/generated/client)
+RUN npx prisma generate && mkdir -p dist/generated && mv src/generated/client dist/generated/client
 
 EXPOSE 8081
 
