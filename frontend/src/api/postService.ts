@@ -34,8 +34,14 @@ export const postService = {
   },
 
   // PATCH an existing post
-  updatePost: async (id: number, data: Partial<{ title: string; slug: string; content: string; tags: string[]; imageUrl?: string }>): Promise<Post> => {
+  updatePost: async (id: number, data: Partial<{ title: string; slug: string; content: string; tags: string[]; imageUrl?: string | null }>): Promise<Post> => {
     const response = await apiClient.patch(`/posts/${id}`, data);
+    return response.data;
+  },
+
+  // GET list of already-uploaded images
+  getUploadedImages: async (): Promise<{ imageUrl: string }[]> => {
+    const response = await apiClient.get('/posts/uploads');
     return response.data;
   },
 

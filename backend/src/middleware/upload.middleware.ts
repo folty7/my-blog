@@ -3,9 +3,11 @@ import multer, { FileFilterCallback } from 'multer';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
+export const UPLOADS_DIR = path.join(__dirname, '../public/uploads');
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '../public/uploads'));
+        cb(null, UPLOADS_DIR);
     },
     filename: (req, file, cb) => {
         const uniqueName = uuidv4() + path.extname(file.originalname);

@@ -4,9 +4,10 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { postService } from '../api/postService';
-import { Send, Type, Hash, Link as LinkIcon, AlertCircle, Image as ImageIcon, X } from 'lucide-react';
+import { Send, Type, Hash, Link as LinkIcon, AlertCircle, Image as ImageIcon, X, Images } from 'lucide-react';
 import { getApiError } from '../../utils/errorHandler';
 import GridContainer from '../components/GridContainer';
+import ImagePickerModal from '../components/ImagePickerModal';
 
 // Helper to generate slug from title
 const generateSlug = (text: string) => {
@@ -32,7 +33,11 @@ export default function CreatePostPage() {
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [selectedExistingUrl, setSelectedExistingUrl] = useState<string | null>(null);
+  const [showPicker, setShowPicker] = useState(false);
   const navigate = useNavigate();
+
+  const apiBaseUrl = import.meta.env.VITE_API_URL?.replace('/api/v1', '') || 'http://localhost:3000';
 
   const {
     register,
@@ -57,6 +62,7 @@ export default function CreatePostPage() {
     const file = e.target.files?.[0];
     if (file) {
       setSelectedFile(file);
+      setSelectedExistingUrl(null);
       setPreviewUrl(URL.createObjectURL(file));
       setError('');
     }
@@ -64,6 +70,7 @@ export default function CreatePostPage() {
 
   const removeImage = () => {
     setSelectedFile(null);
+    setSelectedExistingUrl(null);
     setPreviewUrl(null);
   };
 
@@ -72,7 +79,7 @@ export default function CreatePostPage() {
     setError('');
 
     try {
-      let imageUrl = '';
+      let imageUrl = selectedExistingUrl || '';
       if (selectedFile) {
         const uploadRes = await postService.uploadImage(selectedFile);
         imageUrl = uploadRes.imageUrl;
@@ -120,63 +127,132 @@ export default function CreatePostPage() {
             <div className="form-group">
               <label>Title Image (Hero Background)</label>
               {!previewUrl ? (
-                <div 
-                  onClick={() => document.getElementById('image-upload')?.click()}
-                  style={{ 
-                    border: '2px dashed var(--border-color)', 
-                    padding: '3rem 2rem', 
-                    textAlign: 'center', 
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    backgroundColor: 'rgba(255,255,255,0.01)',
-                    transition: 'all 0.2s ease',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: '0.5rem'
-                  }}
-                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.02)'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-color)'; e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.01)'; }}
-                >
-                  <ImageIcon size={32} style={{ color: 'var(--text-muted)' }} />
-                  <p style={{ fontSize: '0.9rem', color: 'var(--text-main)' }}>Click to upload a title image</p>
-                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Max size 5MB (JPG, PNG, WEBP)</p>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <div
+                    onClick={() => document.getElementById('image-upload')?.click()}
+                    style={{
+                      flex: 1,
+                      border: '2px dashed var(--border-color)',
+                      padding: '2rem 1rem',
+                      textAlign: 'center',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      backgroundColor: 'rgba(255,255,255,0.01)',
+                      transition: 'all 0.2s ease',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: '0.4rem'
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.02)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-color)'; e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.01)'; }}
+                  >
+                    <ImageIcon size={26} style={{ color: 'var(--text-muted)' }} />
+                    <p style={{ fontSize: '0.85rem', color: 'var(--text-main)', margin: 0 }}>Upload new</p>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: 0 }}>Max 5MB (JPG, PNG, WEBP)</p>
+                  </div>
+                  <div
+                    onClick={() => setShowPicker(true)}
+                    style={{
+                      flex: 1,
+                      border: '2px dashed var(--border-color)',
+                      padding: '2rem 1rem',
+                      textAlign: 'center',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      backgroundColor: 'rgba(255,255,255,0.01)',
+                      transition: 'all 0.2s ease',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: '0.4rem'
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.02)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-color)'; e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.01)'; }}
+                  >
+                    <Images size={26} style={{ color: 'var(--text-muted)' }} />
+                    <p style={{ fontSize: '0.85rem', color: 'var(--text-main)', margin: 0 }}>Choose existing</p>
+                  </div>
                 </div>
               ) : (
                 <div style={{ position: 'relative', borderRadius: '4px', overflow: 'hidden', border: '1px solid var(--border-color)', height: '180px' }}>
                   <img src={previewUrl} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  <button 
-                    type="button" 
-                    onClick={removeImage}
-                    style={{ 
-                      position: 'absolute', 
-                      top: '0.5rem', 
-                      right: '0.5rem', 
-                      backgroundColor: 'rgba(0,0,0,0.6)', 
-                      border: 'none', 
-                      borderRadius: '50%', 
-                      width: '32px', 
-                      height: '32px', 
-                      color: 'white',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      cursor: 'pointer',
-                      backdropFilter: 'blur(4px)'
-                    }}
-                  >
-                    <X size={16} />
-                  </button>
+                  <div style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', display: 'flex', gap: '0.5rem' }}>
+                    <button
+                      type="button"
+                      onClick={() => document.getElementById('image-upload')?.click()}
+                      style={{
+                        backgroundColor: 'rgba(0,0,0,0.6)',
+                        border: 'none',
+                        borderRadius: '4px',
+                        padding: '0.25rem 0.75rem',
+                        color: 'white',
+                        fontSize: '0.75rem',
+                        cursor: 'pointer',
+                        backdropFilter: 'blur(4px)'
+                      }}
+                    >
+                      Upload new
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowPicker(true)}
+                      style={{
+                        backgroundColor: 'rgba(0,0,0,0.6)',
+                        border: 'none',
+                        borderRadius: '4px',
+                        padding: '0.25rem 0.75rem',
+                        color: 'white',
+                        fontSize: '0.75rem',
+                        cursor: 'pointer',
+                        backdropFilter: 'blur(4px)'
+                      }}
+                    >
+                      Choose existing
+                    </button>
+                    <button
+                      type="button"
+                      onClick={removeImage}
+                      style={{
+                        backgroundColor: 'rgba(239, 68, 68, 0.6)',
+                        border: 'none',
+                        borderRadius: '50%',
+                        width: '32px',
+                        height: '32px',
+                        color: 'white',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        backdropFilter: 'blur(4px)'
+                      }}
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
                 </div>
               )}
-              <input 
-                id="image-upload" 
-                type="file" 
-                accept="image/*" 
-                onChange={handleFileChange} 
-                style={{ display: 'none' }} 
+              <input
+                id="image-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                style={{ display: 'none' }}
               />
             </div>
+
+            {showPicker && (
+              <ImagePickerModal
+                apiBaseUrl={apiBaseUrl}
+                onClose={() => setShowPicker(false)}
+                onSelect={(url) => {
+                  setSelectedFile(null);
+                  setSelectedExistingUrl(url);
+                  setPreviewUrl(`${apiBaseUrl}${url}`);
+                  setShowPicker(false);
+                }}
+              />
+            )}
 
             <div className="form-group">
               <label>Title</label>

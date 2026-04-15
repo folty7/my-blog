@@ -1,17 +1,17 @@
 import { Router, Response } from 'express';
 import logger from 'jet-logger';
+import fs from 'fs';
 import { prisma } from '../db/prisma';
 import { authenticateToken, AuthRequest } from '../middleware/auth.middleware';
 import { validateBody } from '../middleware/validateRequest';
-
-import { upload } from '../middleware/upload.middleware';
+import { upload, UPLOADS_DIR } from '../middleware/upload.middleware';
 
 interface PostRequestBody {
   title: string;
   content: string;
   slug: string;
   tags?: string[];
-  imageUrl?: string;
+  imageUrl?: string | null;
 }
 
 const router = Router();
@@ -135,6 +135,21 @@ router.post('/upload',
   }
 );
 
+// 2.6. LIST UPLOADED IMAGES (Protected)
+router.get('/uploads', authenticateToken, (_req: AuthRequest, res: Response) => {
+  try {
+    const files = fs.readdirSync(UPLOADS_DIR as string);
+    const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
+    const images = files
+      .filter(f => imageExtensions.includes(f.slice(f.lastIndexOf('.')).toLowerCase()))
+      .map(f => ({ imageUrl: `/uploads/${f}` }));
+    res.json(images);
+  } catch (error) {
+    logger.err(error);
+    res.status(500).json({ error: 'Failed to list images' });
+  }
+});
+
 // 3. GET A SINGLE POST BY SLUG (Public)
 router.get('/:slug', async (req, res) => {
   try {
@@ -180,7 +195,8 @@ router.patch('/:id',
           title,
           content,
           slug,
-          imageUrl,
+          // undefined = not provided (don't touch), null = explicitly removed
+          ...(imageUrl !== undefined ? { imageUrl } : {}),
           tags: tags ? {
             set: [], // Clear existing tags first (in case user wants to remove some tags)
             connectOrCreate: tags.map((tagName) => ({
