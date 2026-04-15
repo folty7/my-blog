@@ -113,7 +113,7 @@ export default function CommentsSection({ postId }: CommentsSectionProps) {
                 )}
               </div>
 
-              <p style={{ fontSize: '1rem', color: '#475569', marginTop: '0.5rem' }}>
+              <p style={{ fontSize: '1rem', color: 'white', marginTop: '0.5rem' }}>
                 {comment.content}
               </p>
 
