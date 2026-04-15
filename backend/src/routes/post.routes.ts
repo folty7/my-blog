@@ -199,8 +199,16 @@ router.patch('/:id',
 router.delete('/:id', authenticateToken, async (req: AuthRequest, res: Response) => {
   try {
     const { id } = req.params;
+    const postId = parseInt(String(id));
+
+    // Explicitly delete all comments associated with the post first 
+    // to avoid foreign key constraint errors if DB doesn't have cascade delete yet
+    await prisma.comment.deleteMany({
+      where: { postId }
+    });
+
     await prisma.post.delete({
-      where: { id: parseInt(String(id)) }
+      where: { id: postId }
     });
     res.json({ message: 'Post deleted successfully' });
   } catch (error) {
