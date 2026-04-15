@@ -34,7 +34,9 @@ if (EnvVars.NodeEnv === NodeEnvs.DEV) {
 
 // Security
 if (EnvVars.NodeEnv === NodeEnvs.PRODUCTION) {
-  app.use(helmet());
+  app.use(helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" }
+  }));
 }
 
 // Add APIs, must be after middleware
