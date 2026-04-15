@@ -183,8 +183,8 @@ h6 {
   top: 0;
   z-index: 500;
   background-color: color-mix(in oklab, var(--bg-color) 50%, transparent);
-  -webkit-backdrop-filter: blur(40px);
-  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 
   /* The navbar handles its own border-bottom through section-wrapper now, 
      or we apply border here if it's not wrapped. Based on logic, we will wrap it. */
