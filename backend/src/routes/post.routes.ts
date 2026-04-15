@@ -22,7 +22,12 @@ router.get('/my-posts', authenticateToken, async (req: AuthRequest, res) => {
     const authorId = req.user?.userId;
     const posts = await prisma.post.findMany({
       where: { authorId },
-      include: { tags: true },
+      include: {
+        tags: true,
+        _count: {
+          select: { comments: true }
+        }
+      },
       orderBy: { createdAt: 'desc' }
     });
     res.json(posts);
