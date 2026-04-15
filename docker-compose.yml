@@ -11,6 +11,29 @@ services:
       POSTGRES_DB: blog_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U blog-admin -d blog_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: blog-backend
+    restart: always
+    ports:
+      - "3000:8081"
+    environment:
+      DATABASE_URL: postgresql://blog-admin:blog-admin-password@postgres:5432/blog_db
+      NODE_ENV: production
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - uploads_data:/app/dist/public/uploads
 
 volumes:
   postgres_data:
+  uploads_data:
