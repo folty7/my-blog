@@ -12,7 +12,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U blog-admin -d blog_db"]
+      test: [ "CMD-SHELL", "pg_isready -U blog-admin -d blog_db" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -28,6 +28,8 @@ services:
     environment:
       DATABASE_URL: postgresql://blog-admin:blog-admin-password@postgres:5432/blog_db
       NODE_ENV: production
+      PORT: 8081
+      JWT_SECRET: my-super-secret-local-jwt-key-for-testing
     depends_on:
       postgres:
         condition: service_healthy
