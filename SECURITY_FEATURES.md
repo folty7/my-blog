@@ -29,6 +29,7 @@
   - [ ] Configure reasonable limits per endpoint
 
 ## Authentication Enhancement
+  - [ ] Toast/redirect after session expires
 - [ ] **OAuth integration (Google & GitHub)**
   - [ ] Set up OAuth apps on Google Cloud Console
   - [ ] Set up OAuth app on GitHub
